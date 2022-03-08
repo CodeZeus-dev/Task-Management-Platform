@@ -1,10 +1,17 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { TransformInterceptor } from './transform.interceptor';
+import { Logger } from '@nestjs/common';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
+  const logger = new Logger();
+  dotenv.config();
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000);
+  app.useGlobalInterceptors(new TransformInterceptor());
+  await app.listen(process.env.PORT);
+  logger.log(`Application listening on PORT::${process.env.PORT}`);
 }
 bootstrap();

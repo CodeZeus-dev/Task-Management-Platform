@@ -5,6 +5,7 @@ import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto';
 import TasksRepository from './tasks.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -12,43 +13,27 @@ export class TasksService {
     @InjectRepository(TasksRepository) private tasksRepository: TasksRepository,
   ) {}
 
-  public getTasks(filterDTO: GetTasksFilterDTO): Promise<Task[]> {
-    return this.tasksRepository.getTasks(filterDTO);
+  public getTasks(filterDTO: GetTasksFilterDTO, user: User): Promise<Task[]> {
+    return this.tasksRepository.getTasks(filterDTO, user);
   }
 
-  // public getTasksWithFilters(filterDTO: GetTasksFilterDTO): Task[] {
-  //   const { status, search } = filterDTO;
-  //   let tasks = this.getAllTasks();
-  //   if (status) {
-  //     tasks = tasks.filter((task) => task.status === status);
-  //   }
-  //   if (search) {
-  //     tasks = tasks.filter((task) => {
-  //       if (
-  //         task.title.toLowerCase().includes(search) ||
-  //         task.description.toLowerCase().includes(search)
-  //       ) {
-  //         return true;
-  //       }
-  //       return false;
-  //     });
-  //   }
-  //   return tasks;
-  // }
-
-  public getTaskById(id: string): Promise<Task> {
-    return this.tasksRepository.findTaskById(id);
+  public getTaskById(id: string, user: User): Promise<Task> {
+    return this.tasksRepository.findTaskById(id, user);
   }
 
-  public createTask(createTaskDTO: CreateTaskDTO): Promise<Task> {
-    return this.tasksRepository.createTask(createTaskDTO);
+  public createTask(createTaskDTO: CreateTaskDTO, user: User): Promise<Task> {
+    return this.tasksRepository.createTask(createTaskDTO, user);
   }
 
-  public deleteTask(id: string): void {
-    this.tasksRepository.deleteTask(id);
+  public deleteTask(id: string, user: User): void {
+    this.tasksRepository.deleteTask(id, user);
   }
 
-  public updateTaskStatus(id: string, newStatus: TaskStatus): Promise<Task> {
-    return this.tasksRepository.updateTask(id, newStatus);
+  public updateTaskStatus(
+    id: string,
+    newStatus: TaskStatus,
+    user: User,
+  ): Promise<Task> {
+    return this.tasksRepository.updateTask(id, newStatus, user);
   }
 }
