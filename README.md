@@ -80,3 +80,24 @@ To make password hashing more secure, we are adding a "salt" part before the act
 e.g. instead of 123456 the password could be dj19da1_123456
 
 > To protect specific routes so that they're accessible only by signed in users, use AuthGuard
+
+### Interceptor
+
+Alter something in the incoming request, e.g. process, change, transform data, etc.
+
+Interceptors can be applied in multiple levels. In this project we add it to the application level.
+
+### App Configuration
+
+- Install the @nestjs/config module
+- In app.module.ts -> import the config module and specify the env variables files, if needed
+- Create the .env.stage.${process.env.STAGE} files
+- To use the ConfigModule within another submodule (e.g. TasksModule), simply import it
+- Use dependency injection to use the config service object
+- To access an env var, use
+
+```typescript
+configService.get('ENV_VAR');
+```
+
+> In order to have access to the ConfigService env vars in the TypeOrmModule, we need to initialise it Async, so that we wait for the ConfigModule to set up.
