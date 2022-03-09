@@ -101,3 +101,30 @@ configService.get('ENV_VAR');
 ```
 
 > In order to have access to the ConfigService env vars in the TypeOrmModule, we need to initialise it Async, so that we wait for the ConfigModule to set up.
+
+### Deployment to Heroku
+
+Add a Heroku remote that points to the application on Heroku
+
+```bash
+$ heroku git:remote -a task-management-constantine
+```
+
+Set necessary env vars
+
+```bash
+$ heroku config:set NPM_CONFIG_PRODUCTION=false
+$ heroku config:set NODE_ENV=production
+$ heroku config:set STAGE=prod
+```
+
+Set variables and credentials for DB
+
+```bash
+$ heroku config:set DB_HOST=ec2-176-34-105-15.eu-west-1.compute.amazonaws.com
+$ heroku config:set DB_PORT=5432
+$ heroku config:set DB_USERNAME=mzqnjuyvsmfazw
+$ heroku config:set DB_PASSWORD=f3d0c699a478d2505bcdb311b700fc9cdb7125ee336df80be3df17112a671ace
+$ heroku config:set DB_DATABASE=dcl5a80bg2gekg
+$ heroku config:set JWT_SECRET=Xb2KK5jgnGFSqJf527m7jVmVenrmcRfyLwXZn9cCDT9ESn4A6YMB4evkPVuC
+```
