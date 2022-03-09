@@ -10,6 +10,7 @@ async function bootstrap() {
   const logger = new Logger();
   dotenv.config();
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const configService = app.get(ConfigService);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
