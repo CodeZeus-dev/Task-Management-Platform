@@ -3,7 +3,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { GetTasksFilterDTO } from './dto/get-tasks-filter.dto';
@@ -44,15 +44,6 @@ export default class TasksRepository extends Repository<Task> {
     }
   }
 
-  public async findTaskById(id: string, user: User): Promise<Task> {
-    const foundTask: Task = await this.findOne({ where: { id, user } });
-    if (!foundTask) {
-      // could also use || // user.tasks.filter((task) => task.id === foundTask.id).length === 0
-      throw new NotFoundException(`Task with ID "${id}" not found`);
-    }
-    return foundTask;
-  }
-
   public async createTask(
     createTaskDTO: CreateTaskDTO,
     user: User,
@@ -81,7 +72,7 @@ export default class TasksRepository extends Repository<Task> {
     newStatus: TaskStatus,
     user,
   ): Promise<Task> {
-    const task = await this.findTaskById(id, user);
+    const task = await this.findOne({ where: { id, user } });
     task.status = newStatus;
     await this.save(task);
     return task;

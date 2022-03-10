@@ -128,3 +128,23 @@ $ heroku config:set DB_PASSWORD=f3d0c699a478d2505bcdb311b700fc9cdb7125ee336df80b
 $ heroku config:set DB_DATABASE=dcl5a80bg2gekg
 $ heroku config:set JWT_SECRET=Xb2KK5jgnGFSqJf527m7jVmVenrmcRfyLwXZn9cCDT9ESn4A6YMB4evkPVuC
 ```
+
+Create a Procfile as a pipeline for running the application (it has been already built before accessing this file).
+
+```typescript
+web: npm run start:prod
+```
+
+Staging changes and commiting, and then pushing to Heroku
+
+```bash
+$ git push -f heroku HEAD:master
+```
+
+Aligning our current HEAD with the remote's master branch.
+
+To view the logs of the application,
+
+```bash
+$ heroku logs --tail
+```
